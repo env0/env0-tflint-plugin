@@ -1,0 +1,20 @@
+name: tflint
+icon: https://uploads-ssl.webflow.com/626be5cf5bc3840f7f16d130/6312141a553f41658fdfd8df_download%20(1).png
+inputs:
+  version:
+    description: The specific version of tflint you wish to use
+    required: true
+  directory:
+    description: The IaC directory you want to analyze with tflint
+    required: true
+  flags:
+    description: Additional tflint flags
+run:
+  exec: |
+    if [ ${inputs.version} == "latest" ] then
+      echo "Please provide a specific version instead of latest"
+    else
+      export TFLINT_VERSION=${inputs.version}
+      curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      tflint ${inputs.flags} ${inputs.directory}
+    fi
