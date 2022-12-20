@@ -11,7 +11,7 @@ inputs:
     description: Additional tflint flags
 run:
   exec: |
-    export TFLINT_VERSION=${inputs.version}
+    echo TFLINT_VERSION=${inputs.version} > $ENV0_ENV
     
     curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
     tflint ${inputs.flags} ${inputs.directory}
