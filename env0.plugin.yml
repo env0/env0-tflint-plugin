@@ -15,7 +15,7 @@ run:
     echo TFLINT_INSTALL_PATH="/home/node/.local/bin" >> $ENV0_ENV
         
     if [ "${TFLINT_VERSION}" == "latest" ]; then
-      echo "This plugin requires a specific tflint version, provide it in the \"version\" input variable"
+      echo "This plugin requires a specific tflint version"
       exit 2
     fi
     
