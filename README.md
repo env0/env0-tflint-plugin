@@ -5,6 +5,7 @@
 This env0 tflint Plugin will allow you to run `tflint` analysis on an IaC directory as a part of your custom flow. To use this plugin, you will need to use version 2 of `env0.yml`.
 
 
+Due to rate limits - we do not allow to use `tflint` with the latest version and we require a specific version to be passed.
 
 
 ## Inputs
