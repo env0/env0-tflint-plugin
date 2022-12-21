@@ -13,7 +13,13 @@ run:
   exec: |
     echo TFLINT_VERSION="${inputs.version}" >> $ENV0_ENV
     echo TFLINT_INSTALL_PATH="/home/node/.local/bin" >> $ENV0_ENV
-    mkdir -p ${TFLINT_INSTALL_PATH}
         
+    if [ "${TFLINT_VERSION}" == "latest" ]; then
+      echo "This plugin requires a specific tflint version, provide it in the \"version\" input variable"
+      exit 2
+    fi
+    
+    mkdir -p ${TFLINT_INSTALL_PATH}
     curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sed 's/unzip -u/unzip -o/' | bash
+    
     tflint ${inputs.flags} ${inputs.directory}
