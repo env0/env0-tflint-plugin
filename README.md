@@ -14,11 +14,11 @@ Due to rate limits - we do not allow to use `tflint` with the latest version and
 
 The tflint plugin accepts the following inputs:
 
-* version (required) - the specific version of tflint you wish to use 
+* `version` (required) - the specific version of tflint you wish to use 
 
-* directory (required) - the path to the directory with the IaC code to analyze (the root folder is your project's root folder)
+* `directory` (required) - the path to the directory with the IaC code to analyze (the root folder is your project's root folder)
 
-* flags - a string containing additional flags as one string
+* `flags` - a string containing additional flags as one string
 
 
 ## Example Usage
