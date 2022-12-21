@@ -12,6 +12,7 @@ inputs:
 run:
   exec: |
     echo TFLINT_VERSION=${inputs.version} > $ENV0_ENV
+    echo TFLINT_INSTALL_PATH=/opt/tflint/bin > $ENV0_ENV
     
     curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sed 's/unzip -u/unzip -o/' | bash
     tflint ${inputs.flags} ${inputs.directory}
