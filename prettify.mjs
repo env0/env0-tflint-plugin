@@ -26,9 +26,9 @@ const colorCode = {
     const issues = tfLintJson.issues.map((issue) => {
         const {rule: {severity, link}, message, range: {filename, start: {line: start}, end: {line: end}}} = issue;
         return [
-            `### ${severity}: [${message}](${link})`,
-            filename ? `File: ${filename}` : undefined,
-            filename ? (start === end ? `Line ${start}` : `Lines ${start} - ${end}`) : undefined,
+            `- ${severity}: [${message}](${link})`,
+            filename ? `  - File: ${filename} - ` : undefined,
+            filename ? (start === end ? `  - Line ${start}` : `  - Lines ${start} - ${end}`) : undefined,
         ]
             .filter(l => l)
             .join('\n');
