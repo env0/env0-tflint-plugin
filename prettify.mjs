@@ -8,6 +8,12 @@ const colorCode = {
     reset: '\x1b[0m',
 };
 
+const icons = {
+    error: '❌',
+    warning: '⚠️',
+    notice: '🔍',
+};
+
 const readFileLines = (fileName, startLine, endLine) => {
     return readFile(fileName, 'utf-8')
         .then((content) => content.split('\n').slice(startLine - 1, endLine).join('\n'))
@@ -44,8 +50,8 @@ const readFileLines = (fileName, startLine, endLine) => {
             content
         } = issue;
         return [
-            `- ${severity}: [${message}](${link})`,
-            filename ? `  - File \`${filename}\` - ` + (start === end ? `line ${start}` : `lines ${start} - ${end}`) : undefined,
+            `## ${icons[severity]} [${message}](${link})`,
+            filename ? `### File \`${filename}\` - ` + (start === end ? `line ${start}` : `lines ${start} - ${end}`) : undefined,
             content ? '```hcl\n' + content + '\n```' : undefined,
         ]
             .filter(l => l)
