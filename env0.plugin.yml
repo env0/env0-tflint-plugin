@@ -21,3 +21,5 @@ run:
     
     tflint --init
     tflint -f json ${inputs.flags} ${inputs.directory} > tflint.json
+    echo "TFLint analysis complete"
+    cat tflint.json
