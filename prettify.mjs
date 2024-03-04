@@ -50,7 +50,7 @@ const readFileLines = (fileName, startLine, endLine) => {
             content
         } = issue;
         return [
-            '<details>'
+            '<details>',
             `<summary>## [${message}](${link}) ${icons[severity]}</summary>`,
             filename ? `### File \`${filename}\` - ` + (start === end ? `line ${start}` : `lines ${start} - ${end}`) : undefined,
             content ? '```hcl\n' + content + '\n```' : undefined,
