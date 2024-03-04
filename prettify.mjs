@@ -1,4 +1,5 @@
-import fs from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
+import process from 'node:process';
 
 const colorCode = {
     error: '\x1b[31m',
@@ -8,7 +9,7 @@ const colorCode = {
 };
 
 (async () => {
-    const tfLintJson = JSON.parse(await fs.readFile('tflint.json', 'utf-8'));
+    const tfLintJson = JSON.parse(await readFile('tflint.json', 'utf-8'));
 
     const counts = tfLintJson.issues.reduce((acc, issue) => {
         const severity = issue.rule.severity;
@@ -20,7 +21,7 @@ const colorCode = {
         .map(([severity, count]) => `${colorCode[severity]}${count} ${severity}${colorCode.reset}`)
         .join(' / ');
 
-    await fs.writeFile(proccess.env.ENV0_STEP_SUMMARY, summary);
+    await writeFile(process.env.ENV0_STEP_SUMMARY, summary);
 
     const issues = tfLintJson.issues.map((issue) => {
         const {rule: {severity, link}, message, range: {filename, start: {line: start}, end: {line: end}}} = issue;
@@ -33,5 +34,5 @@ const colorCode = {
             .join('\n');
     });
 
-    await fs.writeFile(proccess.env.ENV0_STEP_CONTENT, issues.join('\n\n'));
+    await writeFile(process.env.ENV0_STEP_CONTENT, issues.join('\n\n'));
 })();
