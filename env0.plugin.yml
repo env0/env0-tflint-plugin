@@ -9,5 +9,7 @@ inputs:
     required: true
   flags:
     description: Additional tflint flags
-run: ./run-tflint.sh
+run:
+  exec: |
+    ./run-tflint.sh
 
