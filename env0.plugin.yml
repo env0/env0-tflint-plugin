@@ -9,10 +9,5 @@ inputs:
     required: true
   flags:
     description: Additional tflint flags
-run: run-tflint.sh
-env:
-  TFLINT_INSTALL_PATH: /home/node/.local/bin
-  TFLINT_VERSION: $version
-  TFLINT_FLAGS: $flags
-  TFLINT_DIRECTORY: $directory
+run: ./run-tflint.sh
 

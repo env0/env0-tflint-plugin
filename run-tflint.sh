@@ -1,4 +1,8 @@
 #!/bin/bash
+export TFLINT_INSTALL_PATH="/home/node/.local/bin"
+export TFLINT_VERSION="${inputs.version}"
+export TFLINT_DIRECTORY="${inputs.directory}"
+export TFLINT_FLAGS="${inputs.flags}"
 
 # Function to compare semantic versions
 # Returns 0 if first version is greater or equal, 1 otherwise
