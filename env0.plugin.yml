@@ -45,10 +45,10 @@ run:
     # then use the --chdir flag, otherwise use the directory as the last argument
     if compare_versions "0.44.0" "$CLEAN_TFLINT_VERSION"; then
       echo "running tflint ${TFLINT_FLAGS} --chdir=${TFLINT_DIRECTORY}"
-      tflint "${TFLINT_FLAGS}" --chdir="${TFLINT_DIRECTORY}"
+      tflint ${TFLINT_FLAGS} --chdir=${TFLINT_DIRECTORY}
     else
       echo "running tflint ${TFLINT_FLAGS} ${TFLINT_DIRECTORY}"
-      tflint "${TFLINT_FLAGS}" "${TFLINT_DIRECTORY}"
+      tflint ${TFLINT_FLAGS} ${TFLINT_DIRECTORY}
     fi
 
 
