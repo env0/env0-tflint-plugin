@@ -22,9 +22,6 @@ run:
       if [[ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" == "$1" ]]; then return 0; else return 1; fi
     }
 
-    # Convert inputs.version to a standard format if it starts with 'v'
-    TFLINT_VERSION=${TFLINT_VERSION#v}
-    
     if [ "${TFLINT_VERSION}" == "latest" ]; then echo "This plugin requires a specific tflint version" && exit 2; fi
     
     echo "Version: ${TFLINT_VERSION}"
@@ -32,18 +29,12 @@ run:
     echo "Flags: ${TFLINT_FLAGS}"
   
     mkdir -p "${TFLINT_INSTALL_PATH}"
-    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh -o install_linux.sh
-
-    # Check if curl was successful
-    if [ $? -eq 0 ]; then
-      sed -i 's/unzip -u/unzip -o/' install_linux.sh
-      bash install_linux.sh
-    else
-      echo "Failed to download tflint"
-      exit 1
-    fi
+    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sed 's/unzip -u/unzip -o/' | bash
     
     tflint --init
+
+    # Convert inputs.version to a standard format if it starts with 'v'
+    TFLINT_VERSION=${TFLINT_VERSION#v}
     
     # If TFLINT_VERSION is greater or equal to 0.44.0 (https://github.com/terraform-linters/tflint/releases/tag/v0.44.0)
     # then use the --chdir flag, otherwise use the directory as the last argument
