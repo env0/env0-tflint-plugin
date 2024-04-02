@@ -32,7 +32,16 @@ run:
     echo "Flags: ${TFLINT_FLAGS}"
   
     mkdir -p "${TFLINT_INSTALL_PATH}"
-    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sed 's/unzip -u/unzip -o/' | bash
+    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh -o install_linux.sh
+
+    # Check if curl was successful
+    if [ $? -eq 0 ]; then
+      sed -i 's/unzip -u/unzip -o/' install_linux.sh
+      bash install_linux.sh
+    else
+      echo "Failed to download tflint"
+      exit 1
+    fi
     
     tflint --init
     
