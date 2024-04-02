@@ -36,10 +36,6 @@ run:
     # Convert inputs.version to a standard format if it starts with 'v'
     TFLINT_VERSION=${TFLINT_VERSION#v}
     
-    echo "Version: ${TFLINT_VERSION}"
-    echo "Directory: ${TFLINT_DIRECTORY}"
-    echo "Flags: ${TFLINT_FLAGS}"
-    
     # If TFLINT_VERSION is greater or equal to 0.44.0 (https://github.com/terraform-linters/tflint/releases/tag/v0.44.0)
     # then use the --chdir flag, otherwise use the directory as the last argument
     if compare_versions "0.44.0" "$TFLINT_VERSION"; then
