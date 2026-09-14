@@ -28,14 +28,22 @@ run:
     echo "Directory: ${TFLINT_DIRECTORY}"
     echo "Flags: ${TFLINT_FLAGS}"
   
-    mkdir -p "${TFLINT_INSTALL_PATH}"
-    curl --retry 5 --retry-all-errors -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sed 's/unzip -u/unzip -o/' | bash
-    
-    tflint --init
-
     # Convert inputs.version to a standard format if it starts with 'v'
     TFLINT_VERSION=${TFLINT_VERSION#v}
-    
+
+    # tflint removed its install_linux.sh in Sep 2026, so download the release asset directly
+    case "$(uname -m)" in
+      x86_64) TFLINT_ARCH=amd64 ;;
+      aarch64|arm64) TFLINT_ARCH=arm64 ;;
+      *) echo "Unsupported architecture: $(uname -m)" && exit 2 ;;
+    esac
+    mkdir -p "${TFLINT_INSTALL_PATH}"
+    curl --retry 5 --retry-all-errors -fsSL "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_${TFLINT_ARCH}.zip" -o /tmp/tflint.zip
+    unzip -o /tmp/tflint.zip -d "${TFLINT_INSTALL_PATH}" && rm -f /tmp/tflint.zip
+    export PATH="${TFLINT_INSTALL_PATH}:${PATH}"
+
+    tflint --init
+
     # If TFLINT_VERSION is greater or equal to 0.44.0 (https://github.com/terraform-linters/tflint/releases/tag/v0.44.0)
     # then use the --chdir flag, otherwise use the directory as the last argument
     if compare_versions "0.44.0" "$TFLINT_VERSION"; then
