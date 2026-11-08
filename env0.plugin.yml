@@ -37,8 +37,13 @@ run:
       aarch64|arm64) TFLINT_ARCH=arm64 ;;
       *) echo "Unsupported architecture: $(uname -m)" && exit 2 ;;
     esac
+    # Try env0's binary mirror first so a GitHub outage does not fail the step; it holds the versions the env0 agent installs
+    TFLINT_ASSET="v${TFLINT_VERSION}/tflint_linux_${TFLINT_ARCH}.zip"
+    TFLINT_GITHUB_URL="https://github.com/terraform-linters/tflint/releases/download/${TFLINT_ASSET}"
     mkdir -p "${TFLINT_INSTALL_PATH}"
-    curl --retry 5 --retry-all-errors -fsSL "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_${TFLINT_ARCH}.zip" -o /tmp/tflint.zip
+    curl --connect-timeout 10 -fsL "https://binary-mirror-prod.s3.us-east-1.amazonaws.com/tflint/${TFLINT_ASSET}" -o /tmp/tflint.zip \
+      || curl --retry 5 --retry-all-errors -fsSL "${TFLINT_GITHUB_URL}" -o /tmp/tflint.zip \
+      || { echo "Couldn't download ${TFLINT_GITHUB_URL}" >&2; exit 1; }
     unzip -o /tmp/tflint.zip -d "${TFLINT_INSTALL_PATH}" && rm -f /tmp/tflint.zip
     export PATH="${TFLINT_INSTALL_PATH}:${PATH}"
 
